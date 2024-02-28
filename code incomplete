@@ -1,0 +1,88 @@
+
+                                    //______ _____  ________  ___
+                                    //|  _  \  _  ||  _  |  \/  |
+                                    //| | | | | | || | | | .  . |
+                                    //| | | | | | || | | | |\/| |
+                                    //| |/ /\ \_/ /\ \_/ / |  | |
+                                    //|___/  \___/  \___/\_|  |_/
+                           
+
+
+
+using System;
+
+public class Character {
+    public string Name = "Doom Guy";
+    public int Health = 100;
+    public int Damage = 120;
+
+    public Character() {}
+
+    public Character(string name, int health, int damage) {
+        Name = name;
+        Health = health;
+        Damage = damage;
+    }
+
+    public virtual void Attack(Character target) {
+        Console.WriteLine($"{Name} attacks {target.Name} and deals {Damage} damage.");
+        target.ReceiveDamage(Damage);
+    }
+
+    public virtual void ReceiveDamage(int damage) {
+        Health -= damage;
+        if (Health <= 0) {
+            Console.WriteLine($"{Name} has lost the battle.");
+        }
+    }
+}
+
+public class Enemy : Character {
+    public Enemy(string name, int health, int damage) : base(name, health, damage) {}
+
+    // Additional features specific to enemies can be added here
+}
+
+public class Player : Character {
+    public int Experience = 0;
+
+    public Player(string name, int health, int damage) : base(name, health, damage) {
+        Experience = 0;
+    }
+
+    public override void ReceiveDamage(int damage) {
+        base.ReceiveDamage(damage);
+        Console.WriteLine($"Remaining health: {Health}");
+    }
+
+    public void GainExperience(int experience) {
+        Experience += experience;
+        Console.WriteLine($"{Name} has gained {experience} experience points.");
+    }
+
+    public void Recover() {
+        Health += 20;
+        Console.WriteLine($"{Name} has used a potion. Recovered 20 health.");
+    }
+
+    public void ExploreArea() {
+        Random rand = new Random();
+        int chancesEncounterEnemy = rand.Next(1, 101);
+        if (chancesEncounterEnemy <= 50) {
+            EncounterEnemy();
+        }
+        else {
+            Console.WriteLine("You walked through the forest and found nothing.");
+        }
+    }
+
+    private void EncounterEnemy() {
+        Console.WriteLine("You have encountered an enemy.");
+    }
+
+    // Create our enemies
+    string[] enemyNames = {"Zombie", "Skeleton", "Dragon", "Demon", "Slime", "Cerberus", "DeformedPenguin"};
+    string randomEnemyName = enemyNames[new Random().Next(enemyNames.Length)];
+    int randomEnemyHealth = new Random().Next(20, 300);
+    int randomEnemyAttack = new Random().Next(5, 25);
+}
