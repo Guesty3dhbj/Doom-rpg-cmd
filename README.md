@@ -20,4 +20,4 @@
           
           
           
-                                                              PS: the code plays with possibilities
+                                                              PS: the code plays with chances
